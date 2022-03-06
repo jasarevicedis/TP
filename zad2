@@ -1,0 +1,52 @@
+//TP 2016/2017: Tutorijal 1, Zadatak 2
+#include <iostream>
+#include <cmath>
+#include <math.h>
+
+int main(){
+    double a,b,c;
+
+    std::cout << "Unesite tri broja: ";
+    std::cin >> a >> b >> c;
+
+    //testiranje ispravnosti
+    if(a<=0 || b<=0 || c<=0 || b+c <= a || a+c <= b || a+b <= c){
+        std::cout << "Ne postoji trougao cije su duzine stranica " << a <<", " << b << " i " << c << "!";
+        return 0;
+    }
+    else {
+        double obim = a+b+c;
+        double s=((a+b+c)*1.0)/2;
+        double povrsina = sqrt(s*(s-a)*(s-b)*(s-c));
+        double min_stranica,stranica1,stranica2;
+        
+        if(a<=b && a<=c){
+            min_stranica=a;
+            stranica1=b;
+            stranica2=c;
+        }
+        else if(b<=a && b<=c){
+            min_stranica=b;
+            stranica1=a;
+            stranica2=c;
+        }
+        else if(c<=b && c<=a){
+            min_stranica=c;
+            stranica1=b;
+            stranica2=a;
+        }
+        double ugao_radialni = acos((pow(stranica1,2)+pow(stranica2,2) -pow(min_stranica,2))/(2*stranica1*stranica2));
+        double ugao_decimalni=ugao_radialni*(180/(4*atan(1)));
+        
+        int broj_stepena, broj_minuta, broj_sekundi;
+
+        broj_stepena=int(ugao_decimalni);
+        broj_minuta=(ugao_decimalni-broj_stepena)*60;
+        broj_sekundi=((ugao_decimalni-broj_stepena)*60-int((ugao_decimalni-broj_stepena)*60))*60;
+
+        std::cout << "Obim trougla sa duzinama stranica " << a << ", " << b << " i " << c << " iznosi " << obim << "." << std::endl;
+        std::cout << "Njegova povrsina iznosi " << povrsina << "." << std::endl;
+        std::cout << "Njegov najmanji ugao ima " << broj_stepena << " stepeni, " << broj_minuta << " minuta i " << broj_sekundi << " sekundi.";
+    }
+    return 0;
+}
