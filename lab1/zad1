@@ -1,0 +1,62 @@
+//TP 2016/2017: LV 1, Zadatak 1
+#include <iostream>
+#include <cmath>
+
+
+int main ()
+{
+    int a,b,c,d;
+    std::cout << "Unesite duzinu, sirinu i dubinu bazena u metrima: ";
+    std::cin >> a>>b>>c;
+    std::cout << "Unesite sirinu plocice u centimetrima: " << std::endl;
+    std::cin >> d;
+
+    /*
+    - koristi se cijelobrojni tip podataka, dakle necu koristiti ni double(ime_varijable), nego iskljucivo petlju;
+    - testirat cemo jel svaka dimenzija djeljiva s sirinom plocice;
+    */
+    int test=0;
+    int broj;
+
+    //provjera duzine
+    broj=a*100;
+    while(broj>0){
+        broj-=d;
+        if(broj==0){
+            test++;
+            break;
+        }
+    }
+    //provjera sirine
+    broj=b*100;
+    while(broj>0){
+        broj-=d;
+        if(broj==0){
+            test++;
+            break;
+        }
+    }
+    //provjera dubine
+    broj=c*100;
+    while(broj>0){
+        broj-=d;
+        if(broj==0){
+            test++;
+            break;
+        }
+    }
+
+    if(test==3){
+        int broj_plocica = 2*((a*c*10000)/(d*d)) + 2*((b*c*10000)/(d*d)) + ((a*b*10000)/(d*d));
+        std::cout<<"Za poplocavanje  bazena dimenzija "<< a << "x" << b << "x" << c << "m sa plocicama dimenzija " << d << "x" << d << "cm" << std::endl;
+        std::cout <<  "potrebno je " << broj_plocica << " plocica."<<std::endl;
+    }
+    else {
+        std::cout<<"Poplocavanje  bazena dimenzija "<< a << "x" << b << "x" << c << "m sa plocicama dimenzija " << d << "x" << d << "cm"<<std::endl;
+        std::cout<<"nije izvodljivo bez lomljenja plocica!"<<std::endl;
+        
+    }
+
+
+	return 0;
+}
