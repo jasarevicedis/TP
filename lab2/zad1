@@ -1,0 +1,57 @@
+//TP 2020/2021: Tutorijal 2, Zadatak 1
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+bool DaLiJeProst(int n){
+    if(n>=2){
+        for(unsigned int i=2;i<=std::sqrt(n);i++){
+            if(n%i==0 && i!=n){
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+std::vector<int> ProstiBrojeviUOpsegu(int a,int b){
+    std::vector<int> brojevi_u_opsegu;
+    bool je_li_prost;
+    if(a<0){
+        a=2;
+    }
+    for(unsigned int i=a;i<=b;i++){
+        je_li_prost=DaLiJeProst(i);
+        if(je_li_prost==true){
+            brojevi_u_opsegu.push_back(i);
+        }
+    }
+    return brojevi_u_opsegu;
+} 
+
+int main ()
+{
+    int a,b;
+    std::cout << "Unesite pocetnu i krajnju vrijednost: ";
+    std::cin >> a >> b;
+    std::vector<int> nadjeni_brojevi = ProstiBrojeviUOpsegu(a, b);
+
+    if(nadjeni_brojevi.size()==0){
+        std::cout << "Nema prostih brojeva u rasponu od " << a << " do " << b << "!" ;
+    }
+    else {
+        std::cout << "Prosti brojevi u rasponu od " << a << " do " << b << " su: ";
+        int vel=nadjeni_brojevi.size();
+        for(unsigned int i=0;i<vel;i++){
+            if(i==vel-1){
+                std::cout << nadjeni_brojevi[i] << std::endl;                
+            }
+            else {
+                std::cout << nadjeni_brojevi[i];
+                std::cout << ", ";
+            }
+        }
+        
+    }
+    return 0;
+}
