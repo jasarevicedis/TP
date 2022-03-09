@@ -1,0 +1,30 @@
+//TP 2020/2021: Tutorijal 2, Zadatak 4
+#include <iostream>
+#include <complex>
+
+
+int main ()
+{
+    int broj_el;
+    double re,im;
+    std::complex<double> z;
+    std::complex<double> suma;
+
+    std::cout << "Unesite broj elemenata: " <<std::endl;
+    std::cin >> broj_el;
+    for(int i=1;i<=broj_el;i++){
+        std::cout << "R" << i << " = ";
+        std::cin >> re;
+        z.real(re);
+        std::cout << "X" << i << " = " << std::endl;
+        std::cin >> im;
+        z.imag(im);
+
+        suma+= 1.00/z;
+
+    }
+
+    suma =1.00/suma;
+    std::cout << "Paralelna veza ovih elemenata ima R = " << suma.real() << " i X = " << suma.imag() << ".";
+    return 0;
+}
