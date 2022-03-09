@@ -1,0 +1,50 @@
+//TP 2020/2021: Tutorijal 2, Zadatak 2
+#include <iostream>
+#include <vector>
+
+bool TestPerioda(std::vector<double> niz, int p){
+    int vel=niz.size();
+
+    if(p>=vel || p<=0){
+        return false;
+    }
+    for(int index=0;index<vel-p;index++){
+        if(niz[index]!=niz[index+p]){
+            return false;
+        }
+    }
+    return true;
+}
+int OdrediOsnovniPeriod(std::vector<double> niz){
+    int vel=niz.size();
+    for(int period=1;period<vel;period++){
+        if(TestPerioda(niz, period)==true){
+            return period;
+        }
+    }
+    return 0;
+}
+
+int main ()
+{
+    double broj;
+    std::vector<double> niz_brojeva;
+
+    std::cout << "Unesite slijed brojeva (0 za kraj): " << std::endl;
+    for(;;){   
+        std::cin >> broj;
+        if(broj==0){
+            break;
+        }
+        niz_brojeva.push_back(broj);
+    }
+    int period =OdrediOsnovniPeriod(niz_brojeva);
+    
+    if(period==0){
+        std::cout << "Slijed nije periodican!";
+    }
+    else {
+        std::cout << "Slijed je periodican sa osnovnim periodom " << period << ".";
+    }
+    return 0;
+}
