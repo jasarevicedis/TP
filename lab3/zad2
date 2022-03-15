@@ -1,0 +1,86 @@
+//TP 2021/2022: LV 3, Zadatak 2
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+typedef std::vector<int> intVektor;
+
+/*FUNKCIJE */
+bool JeLiParnaSuma(long int broj){
+    if(broj<0){
+        broj*=-1;
+    }
+    int cifra;
+    int suma_cifara=0;
+    while(broj>0){
+        cifra=broj%10;
+        suma_cifara+=cifra;
+        broj/=10;
+    }
+    if(suma_cifara%2==0){
+        return true;
+    }
+    return false;
+}
+
+intVektor IzdvojiElemente(intVektor v, bool Parnost){
+    intVektor editVektor;
+
+    for(unsigned int i=0;i < v.size();i++){
+        if(Parnost==true){
+            if(JeLiParnaSuma(v.at(i))==true){
+                editVektor.push_back(v.at(i));
+            }
+        }
+        else {
+            if(JeLiParnaSuma(v.at(i))==false){
+                editVektor.push_back(v.at(i));
+            }
+        }
+    }
+    return editVektor;
+}
+
+int main ()
+{
+    int broj_el,broj;
+    intVektor uneseniVektor;
+    intVektor vektorParnih;
+    intVektor vektorNeparnih;
+
+    std::cout << "Koliko zelite unijeti elemenata: ";
+    std::cin >> broj_el;
+    if(broj_el<=0){
+        std::cout << "Broj elemenata mora biti veci od 0!";
+        return 0;
+    }
+    std::cout << "Unesite elemente: ";
+
+    for(unsigned int i=0;i<broj_el;i++){
+        std::cin >> broj;
+        uneseniVektor.push_back(broj);
+    }
+
+    vektorParnih =IzdvojiElemente(uneseniVektor, true);
+    vektorNeparnih =IzdvojiElemente(uneseniVektor, false);
+
+
+
+    for(unsigned int i=0;i< vektorParnih.size();i++){
+        
+        std::cout<< vektorParnih.at(i);
+        if(i!=vektorParnih.size()-1){
+            std::cout << "," ;
+        }
+    }
+    std::cout << "\n";
+    for(unsigned int i=0;i< vektorNeparnih.size();i++){
+        
+        std::cout<< vektorNeparnih.at(i);
+        if(i!=vektorNeparnih.size()-1){
+            std::cout << "," ;
+        }
+    }
+
+	return 0;
+}
