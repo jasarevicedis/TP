@@ -63,23 +63,14 @@ int main ()
 
     vektorParnih =IzdvojiElemente(uneseniVektor, true);
     vektorNeparnih =IzdvojiElemente(uneseniVektor, false);
-    
-        //bolje je bilo rangovsku petlju, al sad je kasno :D
 
+    //bolje je bilo rangovsku petlju, al nema veze :D
 
     for(unsigned int i=0;i< vektorParnih.size();i++){
-        if(i==vektorParnih.size()-1){
-            std::cout<< vektorParnih.at(i) << " " << std::endl;
-            break;
-        }
         std::cout<< vektorParnih.at(i) << " ";
     }
     std::cout << "\n";
     for(unsigned int i=0;i< vektorNeparnih.size();i++){
-        if(i==vektorNeparnih.size()-1){
-            std::cout<< vektorNeparnih.at(i) << " " << std::endl;
-            break;
-        }
         std::cout<< vektorNeparnih.at(i) << " ";
     }
 
