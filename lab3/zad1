@@ -63,6 +63,9 @@ int main ()
 
     vektorParnih =IzdvojiElemente(uneseniVektor, true);
     vektorNeparnih =IzdvojiElemente(uneseniVektor, false);
+    
+        //bolje je bilo rangovsku petlju, al sad je kasno :D
+
 
     for(unsigned int i=0;i< vektorParnih.size();i++){
         if(i==vektorParnih.size()-1){
