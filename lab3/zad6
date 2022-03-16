@@ -1,0 +1,85 @@
+//TP 2021/2022: LV 3, Zadatak 6
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+
+//definicije
+typedef std::vector<int>  vector;
+typedef std::vector<std::vector<int>> Matrica;
+
+//funkcije
+Matrica KroneckerovProizvod(vector v1, vector v2);
+int NajvecaSirina(Matrica mat);
+
+int main ()
+{
+    int broj;
+    vector v1;
+    vector v2;
+    unsigned int broj_el1,broj_el2;
+
+    std::cout << "Unesite broj elemenata prvog vektora: ";
+    std::cin >> broj_el1;
+    std::cout << "Unesite elemente prvog vektora: ";
+    for(unsigned int i=0;i<broj_el1;i++){
+        std::cin >> broj;
+        v1.push_back(broj);
+    }
+    std::cout << "Unesite broj elemenata drugog vektora: ";
+    std::cin >> broj_el2;
+    std::cout << "Unesite elemente drugog vektora: ";
+    for(unsigned int i=0;i<broj_el2;i++){
+        std::cin >> broj;
+        v2.push_back(broj);
+    }
+
+    Matrica rezMatrica = KroneckerovProizvod(v1,v2);
+    int sirina=NajvecaSirina(rezMatrica);
+    sirina++;//jer treba bit za 1 veci
+    for(unsigned int i=0; i<rezMatrica.size();i++){
+        for(unsigned int j=0;j<rezMatrica[i].size();j++){
+            std::cout<<std::setw(sirina)<<rezMatrica[i][j];
+        }
+        std::cout<<std::endl;
+    }
+	return 0;
+}
+
+//Kod funkcija
+Matrica KroneckerovProizvod(vector v1, vector v2){
+    Matrica kroneckMatrica(v1.size(), vector(v2.size()));
+
+    for(unsigned int i=0;i<v1.size();i++){
+        for(unsigned int j=0;j<v2.size();j++){
+            kroneckMatrica.at(i).at(j)=v1.at(i)*v2.at(j);
+        }
+    }
+    return kroneckMatrica;
+}
+
+int NajvecaSirina(Matrica mat){
+    int max_cifara=0;
+    int broj_cifara,broj;
+    for(unsigned int i=0;i<mat.size();i++){
+        for(unsigned int j=0;j<mat[i].size();j++){
+            broj_cifara=0;
+            broj=mat.at(i).at(j);
+            if(broj<0){
+                broj_cifara++;
+            }
+
+            while(broj!=0){
+                broj_cifara++;
+                broj/=10;
+            }
+
+            if(broj_cifara>max_cifara){
+                max_cifara=broj_cifara;
+            }
+        }
+    }
+    return max_cifara;
+}
+
+
