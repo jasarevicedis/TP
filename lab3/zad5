@@ -1,0 +1,90 @@
+//TP 2021/2022: LV 3, Zadatak 5
+#include <iostream>
+#include <cmath>
+#include <deque>
+
+//push front kao u proslom, ali rezultat kao u zad3
+//zabranjeno: niz,vector,deque
+typedef std::deque<int> intDeque;
+
+/*FUNKCIJE */
+bool JeLiParnaSuma(long int broj){
+    if(broj<0){
+        broj*=-1;
+    }
+    int cifra;
+    int suma_cifara=0;
+    while(broj>0){
+        cifra=broj%10;
+        suma_cifara+=cifra;
+        broj/=10;
+    }
+    if(suma_cifara%2==0){
+        return true;
+    }
+    return false;
+}
+
+intDeque IzdvojiElemente(intDeque v, bool Parnost){
+    intDeque editDeque;
+
+    for(int i=v.size()-1;i>=0;i--){
+        if(Parnost==true){
+            if(JeLiParnaSuma(v.at(i))==true){
+                editDeque.push_front(v.at(i));
+            }
+        }
+        else {
+            if(JeLiParnaSuma(v.at(i))==false){
+                editDeque.push_front(v.at(i));
+            }
+        }
+    }
+    return editDeque;
+}
+
+int main ()
+{
+    int broj_el,broj;
+    intDeque uneseniDeque;
+    intDeque dequeParnih;
+    intDeque dequeNeparnih;
+
+    std::cout << "Koliko zelite unijeti elemenata: ";
+    std::cin >> broj_el;
+    if(broj_el<=0){
+        std::cout << "Broj elemenata mora biti veci od 0!";
+        return 0;
+    }
+    std::cout << "Unesite elemente: ";
+
+    for(unsigned int i=0;i<broj_el;i++){
+        std::cin >> broj;
+        uneseniDeque.push_back(broj);
+    }
+
+    dequeParnih =IzdvojiElemente(uneseniDeque, true);
+    dequeNeparnih =IzdvojiElemente(uneseniDeque, false);
+
+
+
+    for(unsigned int i=0;i< dequeParnih.size();i++){
+        
+        std::cout<< dequeParnih.at(i);
+        if(i!=dequeParnih.size()-1){
+            std::cout << "," ;
+        }
+    }
+    std::cout << "\n";
+    for(unsigned int i=0;i< dequeNeparnih.size();i++){
+        
+        std::cout<< dequeNeparnih.at(i);
+        if(i!=dequeNeparnih.size()-1){
+            std::cout << "," ;
+        }
+    }
+
+	return 0;
+}
+
+
