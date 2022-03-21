@@ -1,0 +1,64 @@
+//TP 2021/2022: LV 3, Zadatak 7
+#include <iostream>
+#include <cmath>
+#include <stdexcept>
+#include <vector>
+#include <iomanip>
+
+//definicije
+typedef std::vector<int> vektor;
+typedef std::vector<std::vector<int>> Matrica;
+
+//funkcije
+Matrica PascalovTrougao(int n);
+
+int main ()
+{
+    int n;
+    std::cout << "Unesite broj redova: " << std::endl;
+    std::cin >> n;
+    if(n<=0){
+        std::cout << "0" << std::endl;
+    }
+    try {
+        Matrica paskMatrica=PascalovTrougao(n);
+        for(unsigned int i=0;i<n;i++){
+            for(unsigned int j=0;j<=i;j++){
+                std::cout << paskMatrica.at(i).at(j) << " ";
+
+            }
+            std::cout <<std::endl;
+        }
+    }
+    catch(std::domain_error izuzetak){
+        std::cout << izuzetak.what() << std::endl;
+    }
+	return 0;
+}
+
+
+Matrica PascalovTrougao(int n){
+    Matrica PaskMatrica(n);
+    if(n==0){
+        std::cout << "0" << std::endl;
+    }
+    
+    if(n<=0){
+        throw std::domain_error("Broj redova ne smije biti negativan");
+    }
+    
+    for(unsigned int i=0;i<n;i++){
+        for(unsigned int j=0;j<=i;j++){
+            if(i==j || j==0){
+                PaskMatrica[i].push_back(1);
+            }
+            else{
+                PaskMatrica[int(i)].push_back(PaskMatrica[i-1][j]+PaskMatrica[i-1][j-1] );
+            }
+        }
+    }
+    return PaskMatrica;
+}
+
+
+
