@@ -1,0 +1,64 @@
+//TP 2021/2022: LV 3, Zadatak 8
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <stdexcept>
+
+
+std::string IzdvojiRijec(std::string recenica, int redni_broj);
+bool JeLiSlovo(char c);
+
+int main ()
+{
+    int redni_broj;
+    std::string recenica,ntaRijec;
+
+    std::cout << "Unesite redni broj rijeci: ";
+    std::cin >> redni_broj;
+    std::cin.ignore(10000, '\n');
+    std::cout << "Unesite recenicu: "; 
+    std::getline(std::cin,recenica);
+
+    try{
+        ntaRijec=IzdvojiRijec(recenica,redni_broj);
+        std::cout << "Rijec na poziciji " << redni_broj << " je " << ntaRijec;
+    }
+    catch(std::range_error izuzetak){
+        std::cout << izuzetak.what();
+    }
+    
+	return 0;
+}
+
+
+std::string IzdvojiRijec(std::string recenica, int redni_broj){
+    std::string ntaRijec;
+    int brojRijeci=0;
+    int i=0;
+
+    while(i<recenica.length()){
+        if(recenica.at(i)!=' '){
+            brojRijeci++;
+            if(redni_broj==brojRijeci){
+                while(recenica[i]!=' ' && i<recenica.length()){
+                    ntaRijec.push_back(recenica.at(i));
+                    i++;
+                }
+                break;
+            }
+            else{
+                while(recenica.at(i)!=' ' && i<recenica.length()){
+                    i++;
+                }
+            }
+        }
+        i++;
+    }   
+        
+    
+    if(redni_broj <1 || redni_broj > brojRijeci){
+            throw std::range_error("IZUZETAK: Pogresan redni broj rijeci!");
+        }
+    return ntaRijec;
+}
+
