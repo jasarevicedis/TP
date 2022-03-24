@@ -1,0 +1,24 @@
+//TP 2021/2022: LV 4, Zadatak 2
+#include <iostream>
+#include <cmath>
+#include <string>
+
+void ZamijeniMjesta(char &prvi, char &drugi){
+    char temp=prvi;
+    prvi=drugi;
+    drugi=temp;
+}
+void IzvrniString(std::string &Recenica){
+    for(int i=0;i<Recenica.length()/2;i++){
+        ZamijeniMjesta(Recenica.at(i), Recenica.at(Recenica.length()-1-i));
+    }
+}
+int main ()
+{
+    std::string Recenica;
+    std::cout << "Unesi string: ";
+    std::getline(std::cin, Recenica);
+    IzvrniString(Recenica);
+    std::cout << "Izvrnuti string je: " << Recenica;
+	return 0;
+}
