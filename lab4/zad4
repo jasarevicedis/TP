@@ -1,0 +1,46 @@
+//TP 2021/2022: LV 4, Zadatak 4
+#include <iostream>
+#include <cmath>
+#include <string>
+
+void OcistiTok(){
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');
+}
+template <typename nekiTip>
+    void UnosBroja(std::string porukaUnosa, std::string porukaGreske, nekiTip &broj){
+        nekiTip uneseniBroj;
+        for(;;){
+            std::cout << porukaUnosa;
+            std::cin >> uneseniBroj;
+            if(!(std::cin.peek()=='\n')){
+                std::cout << porukaGreske << std::endl;
+                std::cout << std::endl;
+                OcistiTok();
+            }
+            else {
+                break;
+            }
+        }
+        broj=uneseniBroj;
+    }
+
+
+int main ()
+{
+    double baza;
+    int exponent;
+    UnosBroja("Unesite bazu: ", "Neispravan unos, pokusajte ponovo...", baza);
+    std::cout << std::endl;
+    std::cout << std::endl;
+    UnosBroja("Unesite cjelobrojni eksponent: ","Neispravan unos, pokusajte ponovo...", exponent );
+    double rezultat = 1;
+    for(unsigned int i=0;i<abs(exponent);i++){
+        rezultat*=baza;
+    }
+    if(exponent<0){
+        rezultat=1.0/rezultat;
+    }
+    std::cout << baza << " na " << exponent << " iznosi " << rezultat;
+	return 0;
+}
