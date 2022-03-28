@@ -67,22 +67,26 @@ int main ()
     std::cout << std::endl;
     std::cout << "Unesite broj elemenata prvog vektora: ";
     std::cin >> broj_el1;
-    std::cout << "Unesite elemente prvog vektora (ENTER nakon svakog unosa):";
+    vek1.resize(broj_el1);
+    std::cout << "Unesite elemente prvog vektora (ENTER nakon svakog unosa): ";
+    std::cin >> std::ws;
     for(unsigned int i=0;i<broj_el1;i++){
         std::getline (std::cin,rijec);
         vek1.push_back(rijec);
     }
     std::cout << "Unesite broj elemenata drugog vektora: ";
     std::cin >> broj_el2;
-    std::cout << "Unesite elemente drugog vektora (ENTER nakon svakog unosa):";
+    vek2.resize(broj_el2);
+    std::cout << "Unesite elemente drugog vektora (ENTER nakon svakog unosa): ";
+    std::cin >> std::ws;
     for(unsigned int i=0;i<broj_el2;i++){
-        std::cin >> rijec;
+        std::getline (std::cin,rijec);
         vek2.push_back(rijec);
     }
     vek3=Presjek(vek1, vek2);
     std::cout << "Zajednicki elementi su: ";
     for(unsigned int i=0; i < vek3.size();i++){
-        std::cout << vek3.at(i) << " ";
+        std::cout << vek3.at(i) << " " << std::endl;
     }
 
 
