@@ -1,0 +1,78 @@
+//TP 2021/2022: Zadaća 1, Zadatak 4
+#include <iostream>
+#include <cmath>
+#include <stdexcept>
+#include <string>
+#include <array>
+#include <vector>
+
+typedef std::vector<std::string> StringVektor;
+typedef std::array<StringVektor, 100> NizVektora;
+
+bool JeLiSlovoIliCifra(char c){
+    if((c>='a' && c <='z') || (c>='A' && c <='Z') || (c>='0' && c<='9'))
+        return true;
+    return false;
+}
+std::string ToUpper(std::string Rijec){
+    std::string UpperRijec;
+    for(unsigned int i=0;i<Rijec.size();i++)
+        UpperRijec.push_back(toupper(Rijec.at(i)));
+    return UpperRijec;
+}
+void UnosRecenice(std::string &Recenica){
+    std::cout << "Unesite recenicu: " << std::endl;
+    std::getline(std::cin,Recenica);
+}
+NizVektora RazvrstajRijeciPoDuzini(std::string Recenica){
+    std::string Rijec;
+    NizVektora Rijeci;
+    unsigned int k=0, brojac_charova;
+    if(Recenica.size()==0)
+        return Rijeci;
+    while(JeLiSlovoIliCifra(Recenica.at(k))==false && k<Recenica.size())
+        k++;    //ako rijec nije na pocetku stringa
+    for(unsigned int i=k;i<Recenica.size();i++){
+        if(JeLiSlovoIliCifra(Recenica.at(i))==true){
+            brojac_charova=0;
+            Rijec.erase(0);
+            while(JeLiSlovoIliCifra(Recenica.at(i))==true && i<Recenica.size()){
+                Rijec.push_back(Recenica.at(i));
+                i++;
+                brojac_charova++;
+                if(brojac_charova>=100)
+                    throw std::range_error("Predugacka rijec!");
+            }      
+            Rijeci.at(brojac_charova).push_back(ToUpper(Rijec));
+        }
+    }
+    return Rijeci;
+}
+void IspisiRazvrstane(NizVektora RazvrstaneRijeci){
+    for(unsigned int i=0;i<RazvrstaneRijeci.size();i++){
+        if(RazvrstaneRijeci.at(i).size()>0){
+            std::cout << "Duzina " << i << ":";
+            for(unsigned int k=0;k<RazvrstaneRijeci.at(i).size();k++)
+                std::cout <<  " " << RazvrstaneRijeci.at(i).at(k);
+            std::cout << std::endl;
+        }
+    }
+}
+int main(){
+    std::string Recenica;
+    UnosRecenice(Recenica);
+    try{
+        NizVektora RazvrstaneRijeci = RazvrstajRijeciPoDuzini(Recenica);
+        IspisiRazvrstane(RazvrstaneRijeci);
+    }catch(std::range_error izuzetak){
+        std::cout << "Greska: Recenica sadrzi predugacku rijec!"; // razliciti izuzeci za main i f-ju
+    }
+    return 0;
+}
+
+
+
+
+
+
+
