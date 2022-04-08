@@ -1,0 +1,84 @@
+//TP 2021/2022: Zadaća 1, Zadatak 3
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+
+typedef std::vector<bool> BoolVektor;
+typedef std::vector<BoolVektor> BoolMatrica;
+
+//FUNKCIJE
+void IspisiStanjePloce(bool DameSeNapadaju){
+    if(DameSeNapadaju==true)
+        std::cout << "Dame se medjusobno napadaju.";
+    else 
+        std::cout << "Dame se medjusobno ne napadaju.";
+}
+bool JesuLiUIstomRedu(int x1,int x2){
+    if(x1==x2)
+        return true;
+    return false;
+}
+bool JesuLiUIstojKoloni(int y1,int y2){
+    if(y1==y2) 
+        return true;
+    return false;
+}
+bool JesuLiUIstojDijagonali(int x1,int y1,int x2,int y2){
+    if(abs(x1-x2)==abs(y1-y2)) 
+        return true;
+    return false;
+}
+bool DaLiSeDameNapadaju(BoolMatrica SahovskaPloca){
+    for(int i=0;i<SahovskaPloca.size();i++){
+        for(int j=0;j<SahovskaPloca.at(i).size();j++){
+            if(SahovskaPloca.at(i).at(j)==true){
+                for(int m=0;m<SahovskaPloca.size();m++){
+                    for(int n=0;n<SahovskaPloca.at(m).size();n++){
+                        if(SahovskaPloca.at(m).at(n)==true && (m!=i || n!=j) ){
+                            if(JesuLiUIstomRedu(i, m)==true || JesuLiUIstojKoloni(j, n) || JesuLiUIstojDijagonali(i, j, m, n) ) return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+void UnesiRed(std::string red, int brojReda, BoolMatrica &SahovskaPloca){
+    if(red.size()==0){
+        return;
+    }
+    SahovskaPloca.resize(brojReda+1);   
+    for(int i=0;i<red.size();i++){
+        if(red.at(i)=='Q') 
+            SahovskaPloca.at(brojReda).push_back(true);
+        else 
+            SahovskaPloca.at(brojReda).push_back(false);
+    }
+}
+void UnosPloce(BoolMatrica &SahovskaPloca){
+    std::cout << "Unesite opis sahovske ploce:" << std::endl;
+    std::cout << "(Q za kraljicu, bilo sta drugo za prazno polje, ENTER naprazno za kraj unosa):" << std::endl ;
+    std::string red = "random_vrijednost:)";
+    int brojReda=0;
+    while(red.size()!=0){
+        std::getline(std::cin,red);
+        brojReda++;
+        UnesiRed(red, brojReda, SahovskaPloca);   
+    }
+}
+
+int main (){  
+    BoolMatrica mat;
+    BoolMatrica &SahovskaPloca = mat;
+    UnosPloce(SahovskaPloca); 
+    bool DameSeNapadaju = DaLiSeDameNapadaju(SahovskaPloca);
+    IspisiStanjePloce(DameSeNapadaju);
+	return 0;   
+}
+
+
+
+
+
