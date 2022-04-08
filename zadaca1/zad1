@@ -4,19 +4,58 @@
 #include <vector>
 #include <string>
 
-/*Moze se uraditi u 60tak linija, ali ovo ja najcitljivije sto mogu :D */
 typedef std::vector<int> Sekvenca;
 
-//DEFINICIJE FUNKCIJA
-int CiklickaPermutacija(Sekvenca sek1, Sekvenca sek2);
-void UnesiSekvencu(std::string RedniBroj, Sekvenca &sek);
-void OcistiTok();
-void IspisiPomak(int pomak);
-int DuzinaSekvence(Sekvenca &sek);
-bool JesuLiIsteDuzine(Sekvenca &sek1,Sekvenca &sek2);
-Sekvenca PomjeriZa1( Sekvenca sek);
+//FUNKCIJE
+void OcistiTok(){
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');
+}
+int DuzinaSekvence(Sekvenca &sek){
+    return sek.size();   
+}
+bool JesuLiIsteDuzine(Sekvenca &sek1,Sekvenca &sek2){
+    return sek1.size()==sek2.size();
+}
+void UnesiSekvencu(std::string RedniBroj,Sekvenca &sek){
+    int broj;
+    std::cout << RedniBroj << " sekvenca: " << std::endl;   
+    while((std::cin >> broj))
+        sek.push_back(broj);          
+}
+Sekvenca PomjeriZa1( Sekvenca sek){
+    int index_zadnjeg=DuzinaSekvence(sek)-1;
+    int zadnji = sek.at(index_zadnjeg);
+    for(int i=index_zadnjeg;i>0;i--)
+        sek.at(i)=sek.at(i-1);
+    sek.at(0)=zadnji;
+    return sek;
+}
+int CiklickaPermutacija(Sekvenca sek1, Sekvenca sek2){
+    Sekvenca KopijaDruge = sek2;
+    if(sek1.size()==0 || sek2.size()==0)    
+        return 0;
+    else if(JesuLiIsteDuzine(sek1,sek2)==false)     
+        return -1;
+    else {
+        for(int pomak=0;pomak<DuzinaSekvence(sek1);pomak++){
+            if(sek1==KopijaDruge)
+                return pomak;
+            KopijaDruge=PomjeriZa1(KopijaDruge);
+        }
+    }
+    return -1;
+}
+void IspisiPomak(int pomak){
+    if(pomak>=0){
+        std::cout << "Druga sekvenca je ciklicka permutacija prve s pomakom " << pomak << ".";
+    }
+    else {
+        std::cout << "Druga sekvenca nije ciklicka permutacija prve.";
+    }
+}
 
-//GLAVNI DIO
+
 int main ()
 {
     Sekvenca sek1,sek2;
@@ -31,65 +70,9 @@ int main ()
 	return 0;
 }
 
-//FUNKCIJE
-
-void OcistiTok(){
-    std::cin.clear();
-    std::cin.ignore(10000, '\n');
-}
-
-int DuzinaSekvence(Sekvenca &sek){
-    return sek.size();   
-}
-
-bool JesuLiIsteDuzine(Sekvenca &sek1,Sekvenca &sek2){
-    return sek1.size()==sek2.size();
-}
-
-void UnesiSekvencu(std::string RedniBroj,Sekvenca &sek){
-    int broj;
-
-    std::cout << RedniBroj << " sekvenca: " << std::endl;
-    int i=0;
-    while((std::cin >> broj)){
-        sek.push_back(broj);      
-    }    
-}
-
-Sekvenca PomjeriZa1( Sekvenca sek){
-    int index_zadnjeg=DuzinaSekvence(sek)-1;
-    int zadnji = sek.at(index_zadnjeg);
-
-    for(int i=index_zadnjeg;i>0;i--){
-        sek.at(i)=sek.at(i-1);
-    }
-    sek.at(0)=zadnji;
-    return sek;
-}
 
 
-int CiklickaPermutacija(Sekvenca sek1, Sekvenca sek2){
-    Sekvenca KopijaDruge = sek2;
 
-    if(JesuLiIsteDuzine(sek1,sek2)==false){
-        return -1;
-    }
-    else {
-        for(int pomak=0;pomak<DuzinaSekvence(sek1);pomak++){
-            if(sek1==KopijaDruge){
-                return pomak;
-            }
-            KopijaDruge=PomjeriZa1(KopijaDruge);
-        }
-    }
-    return -1;
-}
 
-void IspisiPomak(int pomak){
-    if(pomak>=0){
-        std::cout << "Druga sekvenca je ciklicka permutacija prve s pomakom " << pomak << ".";
-    }
-    else {
-        std::cout << "Druga sekvenca nije ciklicka permutacija prve.";
-    }
-}
+
+
