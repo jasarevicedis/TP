@@ -1,0 +1,145 @@
+//TP 2021/2022: Zadaća 1, Zadatak 2         --19/24 at--
+#include <iostream>
+#include <cmath>
+#include <stdexcept>
+#include <vector>
+#include <array>
+#include <string>
+
+const double eps=0.0000000001;
+typedef std::vector<double> DoubleVektor;
+typedef std::vector<std::vector<double>> Matrica;
+typedef std::array<Matrica,2> DvospratnaMatrica;
+
+//FUNKCIJE- PAR NJIH JE COPY PASTE S PREDAVANJA, UZ MALO MODIFIKACIJA :D
+
+int BrojRedova(Matrica m) {
+    return m.size();
+}
+int BrojKolona(Matrica m) {
+    if(m.size() != 0) return m.at(0).size();
+    return 0;
+}
+bool MoguSeMnoziti(Matrica m1, Matrica m2) {
+    return BrojKolona(m1) == BrojRedova(m2);
+}
+
+void OcistiTok(){
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');
+}
+bool JeLiGrbava(Matrica mat){
+    unsigned int konstDuzina = mat.at(0).size();
+    for(unsigned int i=1;i<mat.size();i++)
+        if(mat.at(i).size()!=konstDuzina)
+            return true;
+    return false;
+}
+Matrica MnozenjeMatrica(Matrica mat1, Matrica mat2) {
+    if(!(MoguSeMnoziti(mat1, mat2))) throw std::domain_error("Matrice nisu saglasne za mnozenje!");
+    if(JeLiGrbava(mat1)==true || JeLiGrbava(mat2)==true) throw std::domain_error("Neispravna matrica!");
+    if(mat1.size()==0 || mat2.size()==0){
+        return mat1;
+    }
+    Matrica mat3(BrojRedova(mat1), std::vector<double>(BrojKolona(mat2)));
+    for(int i = 0; i < BrojRedova(mat1); i++)
+        for(int j = 0; j < BrojKolona(mat2); j++) {
+            double suma = 0;
+            for(int k = 0; k < BrojRedova(mat2); k++) suma += mat1.at(i).at(k) * mat2.at(k).at(j);
+                mat3.at(i).at(j) = suma;
+    }
+    return mat3;
+}
+DvospratnaMatrica DoolittleLU(Matrica mat){
+    if(BrojRedova(mat)!=BrojKolona(mat)) throw std::domain_error("Matrica mora biti kvadratna!");
+    if(JeLiGrbava(mat)==true) throw std::domain_error("Neispravna matrica!");
+    DvospratnaMatrica LU;
+    Matrica L(BrojRedova(mat), DoubleVektor(BrojKolona(mat)));
+    Matrica U(BrojRedova(mat), DoubleVektor(BrojKolona(mat)));
+    double broj;
+    int n=mat.size();
+    for(unsigned int i=0;i<n;i++){
+        for(unsigned int j=i;j<n;j++){
+            broj=0;
+            for(unsigned int k=0;k<i;k++){
+                broj+=L.at(i).at(k) * U.at(k).at(j);
+            }
+            
+            U.at(i).at(j) = mat.at(i).at(j)-broj;
+        }
+        if(std::fabs(U.at(i).at(i))<eps) throw std::domain_error("LU faktorizacija ne postoji, jer je matrica singularna!");
+        for(unsigned int l=i;l<n;l++){
+            if(l==i){
+                L.at(l).at(l)=1;//dijagonalni elementi, nema potrebe za racunanjem
+            }
+            else{
+                broj=0;
+                for(unsigned int k=0;k<i;k++){
+                    broj+=L.at(l).at(k) * U.at(k).at(i);
+                }
+                L.at(l).at(i) = (mat.at(l).at(i)-broj)/ U.at(i).at(i);
+            }
+        }
+    }
+    LU.at(0)=L;
+    LU.at(1)=U;
+    return LU;
+}
+bool ProvjeriFaktorizaciju(Matrica H, DvospratnaMatrica LU){
+    Matrica ProduktMatrica = MnozenjeMatrica(LU.at(0), LU.at(1));
+    for(unsigned int i=0;i<BrojRedova(H);i++){
+        for(unsigned int j=0;j< BrojRedova(H);j++){
+            if(fabs(H.at(i).at(j)-ProduktMatrica.at(i).at(j))>=eps)
+                return false;
+        }
+    }
+    return true;
+}
+void IspisiMatricu(Matrica mat){
+    for(unsigned int i=0;i<mat.size();i++){
+        for(unsigned int j=0;j<mat.at(i).size();j++){
+            std::cout <<mat.at(i).at(j) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+int main ()
+{
+    int n=0;
+    double broj=0;
+    Matrica LowerMatrica, UpperMatrica;
+    std::cout << "Broj redova/kolona matrice: ";
+    std::cin >> n;
+    std::cout << "Elementi matrice:" <<std::endl;
+    Matrica mat(n);
+    for(unsigned int i=0;i<n;i++){
+        for(unsigned int j=0;j<n;j++){
+            std::cin >> broj;
+            mat.at(i).push_back(broj);
+        }
+    }
+        //std::cout << BrojKolona(mat) << BrojRedova(mat);
+    try{
+        DvospratnaMatrica LU = DoolittleLU(mat);
+        LowerMatrica = LU.at(0);
+        UpperMatrica = LU.at(1);
+        std::cout<<std::endl;
+        std::cout << "Matrica L:"<< std::endl;
+        IspisiMatricu(LowerMatrica);
+        std::cout<<std::endl;
+        std::cout << "Matrica U:"<< std::endl;
+        IspisiMatricu(UpperMatrica);
+    
+    }catch(std::domain_error izuzetak){
+        std::cout << izuzetak.what();
+    }
+    
+
+	return 0;
+}
+
+
+
+
+
+
