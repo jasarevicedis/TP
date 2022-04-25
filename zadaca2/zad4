@@ -1,0 +1,52 @@
+//TP 2021/2022: Zadaća 2, Zadatak 4
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+
+void OcistiTok(){
+    std::cin.clear();
+    std::cin.ignore();
+}
+template <typename nekiTip>
+bool Kriterij(std::vector<nekiTip> red1, std::vector<nekiTip> red2){
+    nekiTip suma1=0,suma2=0;
+    for(auto broj: red1) suma1+=broj;
+    for(auto broj: red2) suma2+=broj;
+    if(suma1==suma2) return red1<red2;
+    return suma1 > suma2;
+}
+template <typename nekiTip>
+void SortirajPoSumiRedova(std::vector<std::vector<nekiTip>> &mat){
+    std::sort(mat.begin(),mat.end(), Kriterij<nekiTip>);
+}
+
+int main ()
+{
+    int br_redova=0;
+    double broj;
+    std::vector<std::vector<double>> mat;
+    std::cout << "Unesi elemente (* za kraj reda, * na pocetku reda za kraj unosa): " <<std::endl;
+    for(;;){
+        mat.resize(br_redova+1);
+        for(;;){
+            std::cin >> broj;
+            if(!std::cin){
+                OcistiTok();
+                break;
+            }
+            mat.at(br_redova).push_back(broj);
+        }
+        if(mat.at(br_redova).size()==0) break;
+        br_redova++;
+    }
+    std::cout << "Matrica nakon sortiranja: " << std::endl;
+    SortirajPoSumiRedova(mat);
+    for(unsigned int i=0;i<mat.size();i++){
+        for(unsigned int j=0;j<mat.at(i).size();j++){
+            std::cout << mat.at(i).at(j) << " ";
+        }
+        std::cout << std::endl;
+    }
+	return 0;
+}
