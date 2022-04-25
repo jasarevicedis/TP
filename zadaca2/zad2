@@ -1,0 +1,36 @@
+//TP 2021/2022: Zadaća 2, Zadatak 2
+#include <iostream>
+#include <stdexcept>
+
+bool JeProst(int n){
+    if(n<2) return false;
+    int i=2;
+    while(i*i<=n){
+        if(n%i==0)  return false;
+        i++;
+    }
+    return true;    
+}
+void Goldbach(int n,int &p, int &q){
+    int i,j;
+    for(i=2;i<n/2;i++)
+        if(JeProst(i)==true && JeProst(n-i)==true){
+            p=i;
+            q=n-i;
+            return;
+        }
+    throw std::logic_error("Rastava ne postoji");
+}
+int main (){
+    int n,p,q;
+    std::cout << "Unesi broj: " << std::endl;
+    std::cin >> n;
+    try{
+        Goldbach(n,p,q);
+        std::cout << n << " je zbir prostih brojeva " << p << " i " << q;
+    }
+    catch(std::logic_error le){
+        std::cout << n << " nije zbir dva prosta broja!";
+    }
+	return 0;
+}
