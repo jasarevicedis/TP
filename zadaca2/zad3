@@ -1,0 +1,86 @@
+//TP 2021/2022: Zadaća 2, Zadatak 3
+#include <iostream>
+#include <vector>
+
+template <typename nekiTip1, typename nekiTip2>
+auto ZbirKontejnera(nekiTip1 kontejner1,nekiTip2 kontejner2)-> std::vector<decltype(*(kontejner1.begin())+*(kontejner2.begin()))>{
+    auto prvi=kontejner1.begin();
+    auto drugi=kontejner2.begin();
+    std::vector<decltype(*(kontejner1.begin())+*(kontejner2.begin()))> zbirniVektor;
+    int duzina1=0,duzina2=0;
+    while(prvi!=kontejner1.end()){
+        duzina1++;
+        prvi++;
+    }
+    while(drugi!=kontejner2.end()){
+        duzina2++;
+        drugi++;
+    }
+    int veci,manji;
+    if(duzina1>duzina2){
+        veci=duzina1;
+        manji=duzina2;
+    }
+    else{
+        veci=duzina2;
+        manji=duzina1;
+    }
+    auto pok1=kontejner1.begin();
+    auto pok2=kontejner2.begin();
+    for(unsigned int i=0;i<manji;i++){
+        zbirniVektor.push_back(*pok1+*pok2);
+        pok1++;
+        pok2++;
+    }
+    
+    for(unsigned int i=manji;i<veci;i++){
+        if(duzina1<duzina2){
+                zbirniVektor.push_back(kontejner2.at(i));
+        }
+        if(duzina1>duzina2){
+                zbirniVektor.push_back(kontejner1.at(i));
+        }
+    }
+    
+    
+    /*
+    kontejner1.resize(veci);
+    kontejner2.resize(veci);
+    auto pok1=kontejner1.begin();
+    auto pok2=kontejner2.begin();
+    for(int i=0;i<veci;i++){
+        zbirniVektor.push_back(*pok1+*pok2);
+        pok1++;
+        pok2++;
+    }
+    */
+    return zbirniVektor;
+}
+void UnosVektora(std::vector<double> &v, int vel){
+    double broj;
+    for(unsigned int i=0;i<vel;i++){
+        std::cin >> broj;
+        v.push_back(broj);
+    }
+}
+int main (){
+    std::vector<double> vek1,vek2;
+    int duzina1,duzina2;
+    std::cout << "Duzina prvog kontejnera: " << std::endl;
+    std::cin >> duzina1;
+    std::cout << "Elementi prvog kontejnera: " << std::endl;
+    UnosVektora(vek1,duzina1);
+    std::cout << "Duzina drugog kontejnera: " << std::endl;
+    std::cin >> duzina2;
+    std::cout << "Elementi drugog kontejnera: " << std::endl;
+    UnosVektora(vek2,duzina2);
+    std::vector<double> ZbirniVektor = ZbirKontejnera(vek1,vek2);
+    std::cout << "Zbir kontejnera: ";
+    auto pok= ZbirKontejnera(vek1,vek2);
+    
+    for(auto broj: pok){
+        std::cout << broj << " ";
+    }
+    
+	return 0;
+}
